@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Modelos principales:
+
+model Categoria {
+  id        String     @id @default(cuid())
+  nombre    String     // Ej: "Flores", "Masitas", "Frapés y Cafés", "Regalos"
+  slug      String     @unique // Ej: "frapes-y-cafes" (para URLs)
+  productos Producto[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Producto {
+  id          String      @id @default(cuid())
+  nombre      String
+  descripcion String?
+  precio      Decimal     @db.Decimal(10, 2)
+  imagenUrl   String?
+  stock       Int         @default(0)
+  categoriaId String
+  categoria   Categoria   @relation(fields: [categoriaId], references: [id])
+  ordenItems  OrdenItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Usuario {
+  id        String   @id @default(cuid())
+  nombre    String
+  email     String   @unique
+  rol       Rol      @default(CLIENTE)
+  ordenes   Orden[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Rol {
+  CLIENTE
+  ADMIN
+}
+
+model Orden {
+  id          String      @id @default(cuid())
+  usuarioId   String?     
+  usuario     Usuario?    @relation(fields: [usuarioId], references: [id])
+  total       Decimal     @db.Decimal(10, 2)
+  estado      EstadoOrden @default(PENDIENTE)
+  items       OrdenItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+enum EstadoOrden {
+  PENDIENTE
+  PREPARANDO
+  EN_CAMINO
+  ENTREGADO
+  CANCELADO
+}
+
+model OrdenItem {
+  id         String   @id @default(cuid())
+  ordenId    String
+  orden      Orden    @relation(fields: [ordenId], references: [id])
+  productoId String
+  producto   Producto @relation(fields: [productoId], references: [id])
+  cantidad   Int
+  precio     Decimal  @db.Decimal(10, 2)
+}

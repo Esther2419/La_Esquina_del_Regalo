@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm cream/ivory vanity structure and background */
+  --color-cream-50: #faf8f6;
+  --color-cream-100: #f4efe6;
+  --color-cream-200: #eadfc9;
+  --color-cream-500: #c4b59f;
+
+  /* Elegant warm brown/taupe from the wall panels and floor */
+  --color-wall-brown-100: #ebe7e2;
+  --color-wall-brown-500: #8a7d72;
+  --color-wall-brown-700: #665b52;
+  --color-wall-brown-900: #3d352e;
+
+  /* Vibrant plant green from the mirrors' reflections */
+  --color-plant-green-100: #e8f0ea;
+  --color-plant-green-500: #4a6b53;
+  --color-plant-green-700: #344d3b;
+
+  /* Brilliant brushed brass/gold details and hardware */
+  --color-gold-50: #faf7f0;
+  --color-gold-200: #eadcb9;
+  --color-gold-500: #d4af37;
+  --color-gold-700: #b28e28;
+  --color-gold-900: #7d6114;
+
+  /* Luxury black marble tabletop */
+  --color-marble-black-800: #1e1e1e;
+  --color-marble-black-900: #121212;
+}
+
+@layer base {
+  :root {
+    --background: #faf8f6; /* Ivory cream */
+    --foreground: #3d352e; /* Warm wall-brown-900 */
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+/* Utilidades personalizadas para efectos de vidrio y luz */
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-lg;
+  }
+  .glass-mirror {
+    @apply bg-white/30 backdrop-blur-md border border-white/80 shadow-[0_0_20px_rgba(255,255,255,0.6)];
+  }
+  .glow-light {
+    box-shadow: 0 0 15px 3px rgba(255, 244, 224, 0.7), 0 0 5px 1px rgba(212, 175, 55, 0.3);
+  }
+  .glow-gold {
+    box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.4);
+  }
+}
+
+
